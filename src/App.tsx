@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styles from "./App.module.css";
-import { Canvas } from "./components/Canvas";
+import s from "./modules/App.module.scss";
+import StartPage from "./components/pages/StartPage";
+import { Route, Routes } from "react-router-dom";
+import TimerPage from "./components/pages/TimerPage";
 
-const Stopwatch: React.FC = () => {
+const App: React.FC = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [milliseconds, setMilliseconds] = useState(0);
@@ -46,19 +48,26 @@ const Stopwatch: React.FC = () => {
   };
 
   return (
-    <div className={styles.app}>
-      <h2>Simple Timer</h2>
-      <Canvas
-        isRunning={isRunning}
-        milliseconds={milliseconds}
-        seconds={seconds}
-        minutes={minutes}
-        handleReset={handleReset}
-        handleStart={handleStart}
-        handleStop={handleStop}
-      />
+    <div className={s.app}>
+      <Routes>
+        <Route path="/" element={<StartPage />} />
+        <Route
+          path="/timer"
+          element={
+            <TimerPage
+              handleStop={handleStop}
+              handleStart={handleStart}
+              handleReset={handleReset}
+              isRunning={isRunning}
+              minutes={minutes}
+              seconds={seconds}
+              milliseconds={milliseconds}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 };
 
-export default Stopwatch;
+export default App;
